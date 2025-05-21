@@ -1,18 +1,21 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStaticNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import LoginScreen from './screens/LoginScreen';
 import MapScreen from './screens/MapScreen';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator({
+  initialRouteName: 'Login',
+  screens: {
+    Login: LoginScreen,
+    Map: MapScreen
+  }
+});
+
+const Navigation = createStaticNavigation(Stack)
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Map" component={MapScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Navigation />
   );
 }
