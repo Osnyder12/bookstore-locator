@@ -17,7 +17,6 @@ const LoginScreen = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       if (user) {
-        console.log('User logged in:', user); // Log the user object
         Alert.alert('Login successful!', `Welcome ${user.email}`);
   
         navigation.navigate('Map');
