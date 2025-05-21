@@ -1,6 +1,6 @@
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, StyleSheet, TextInput, View } from 'react-native';
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { db } from '../firebaseConfig';
 import { mockBookstores } from '../mocks/mockBookstores';
@@ -31,7 +31,8 @@ export default function MapScreen() {
   const [bookstores, setBookstores] = useState([]);
   const [filteredStores, setFilteredStores] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  console.log
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
   useEffect(() => {
     const fetchBookstores = async () => {
         if (__DEV__) {
@@ -68,39 +69,55 @@ export default function MapScreen() {
     setFilteredStores(filtered);
   }, [searchQuery, bookstores]);
 
+  useEffect(() => {
+    const keyboardDidShow = () => setKeyboardVisible(true);
+    const keyboardDidHide = () => setKeyboardVisible(false);
+
+    const showSub = Keyboard.addListener('keyboardDidShow', keyboardDidShow);
+    const hideSub = Keyboard.addListener('keyboardDidHide', keyboardDidHide);
+
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: filteredStores[0]?.latitude || 42.3601,
-          longitude: filteredStores[0]?.longitude || -71.0589,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
-        }}
-      >
-        {filteredStores.map(store => (
-          <Marker
-            key={store.id}
-            coordinate={{ latitude: store.latitude, longitude: store.longitude }}
-            title={store.name}
-            description={store.address}
-          />
-        ))}
-      </MapView>
-
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={styles.searchContainer}
-      >
-        <TextInput
-          placeholder="Search by city..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          style={styles.searchInput}
-        />
-      </KeyboardAvoidingView>
-    </View>
+          <MapView
+            style={{ flex: 1 }}
+            initialRegion={{
+              latitude: filteredStores[0]?.latitude || 42.3601,
+              longitude: filteredStores[0]?.longitude || -71.0589,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1,
+            }}
+            >
+            {filteredStores.map(store => (
+              <Marker
+              key={store.id}
+              coordinate={{ latitude: store.latitude, longitude: store.longitude }}
+              title={store.name}
+              description={store.address}
+              />
+            ))}
+          </MapView>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+              style={styles.searchContainer}
+            >
+              <View style={[styles.searchContainer, keyboardVisible && { bottom: 300 }]}>
+                <TextInput
+                  placeholder="Search by city..."
+                  value={searchQuery}
+                  onChangeText={setSearchQuery}
+                  style={styles.searchInput}
+                  />
+              </View>
+            </KeyboardAvoidingView>
+          </TouchableWithoutFeedback>
+        </View>
   );
 }
 
