@@ -11,7 +11,7 @@ import {
 
 interface MapSearchBarProps {
   searchQuery: string;
-  setSearchQuery: (text: string) => void;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const styles = StyleSheet.create({

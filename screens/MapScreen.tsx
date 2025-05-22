@@ -8,7 +8,7 @@ import { mockBookstores } from "../mocks/mockBookstores";
 import { Bookstore } from "../types/bookstore";
 
 export default function MapScreen() {
-  const [bookstores, setBookstores] = useState([]);
+  const [bookstores, setBookstores] = useState<Bookstore[]>([]);
   const [filteredStores, setFilteredStores] = useState<Bookstore[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
