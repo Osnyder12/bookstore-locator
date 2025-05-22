@@ -9,6 +9,11 @@ import {
   View,
 } from "react-native";
 
+interface MapSearchBarProps {
+  searchQuery: string;
+  setSearchQuery: (text: string) => void;
+}
+
 const styles = StyleSheet.create({
   searchContainer: {
     position: "absolute",
@@ -30,8 +35,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const MapSearchBar = (props) => {
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
+const MapSearchBar: React.FC<MapSearchBarProps> = ({ searchQuery, setSearchQuery }) => {
+  const [keyboardVisible, setKeyboardVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const keyboardDidShow = () => setKeyboardVisible(true);
@@ -55,8 +60,8 @@ const MapSearchBar = (props) => {
         <View style={[styles.searchContainer, keyboardVisible && { bottom: 300 }]}>
           <TextInput
             placeholder="Search by city..."
-            value={props.searchQuery}
-            onChangeText={props.setSearchQuery}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
             style={styles.searchInput}
           />
         </View>

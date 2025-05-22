@@ -1,9 +1,11 @@
 import React from "react";
 import MapView, { Marker } from "react-native-maps";
 
-const MapPage = (props) => {
-  const filteredStores = props.filteredStores;
+interface MapPageProps {
+  filteredStores: any;
+}
 
+const MapPage: React.FC<MapPageProps> = ({ filteredStores }) => {
   return (
     <MapView
       style={{ flex: 1 }}
