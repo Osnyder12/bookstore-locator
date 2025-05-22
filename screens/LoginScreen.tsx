@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Alert, Button, TextInput, View } from "react-native";
 import { RootStackParamList } from "../App";
-import { auth } from "../firebaseInit"; // Firebase Auth initialization
+import { auth } from "../firebaseConfig";
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, "Login">;
 
