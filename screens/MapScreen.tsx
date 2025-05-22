@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import MapPage from "../components/map/MapPage";
 import MapSearchBar from "../components/map/MapSearchBar";
-import { db } from "../firebaseConfig";
+import db from "../firebaseConfig";
 import { mockBookstores } from "../mocks/mockBookstores";
+import { Bookstore } from "../types/bookstore";
 
 export default function MapScreen() {
   const [bookstores, setBookstores] = useState([]);
-  const [filteredStores, setFilteredStores] = useState([]);
+  const [filteredStores, setFilteredStores] = useState<Bookstore[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -20,9 +21,9 @@ export default function MapScreen() {
       }
       try {
         const querySnapshot = await getDocs(collection(db, "bookstores"));
-        const data = querySnapshot.docs.map((doc) => ({
+        const data: Bookstore[] = querySnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data(),
+          ...(doc.data() as Omit<Bookstore, "id">),
         }));
         setBookstores(data);
         setFilteredStores(data);
