@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import MapPage from "../components/map/MapPage";
 import MapSearchBar from "../components/map/MapSearchBar";
-import db from "../firebaseConfig";
+import { db } from "../firebaseConfig";
 import { mockBookstores } from "../mocks/mockBookstores";
 import { Bookstore } from "../types/bookstore";
 
