@@ -1,5 +1,6 @@
 import React from "react";
 import MapView, { Marker } from "react-native-maps";
+import { Bookstore } from "../../types/bookstore";
 
 interface MapPageProps {
   filteredStores: any;
@@ -16,7 +17,7 @@ const MapPage: React.FC<MapPageProps> = ({ filteredStores }) => {
         longitudeDelta: 0.1,
       }}
     >
-      {filteredStores.map((store) => (
+      {filteredStores.map((store: Bookstore) => (
         <Marker
           key={store.id}
           coordinate={{ latitude: store.latitude, longitude: store.longitude }}
