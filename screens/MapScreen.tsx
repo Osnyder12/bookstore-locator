@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import MapPage from "../components/map/MapPage";
 import MapSearchBar from "../components/map/MapSearchBar";
+import MapSearchResults from "../components/map/MapSearchResults";
 import { db } from "../firebaseConfig";
 import { mockBookstores } from "../mocks/mockBookstores";
 import { Bookstore } from "../types/bookstore";
@@ -50,7 +51,7 @@ export default function MapScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      // TODO: List search results at top of page
+      <MapSearchResults filteredStores={filteredStores} />
       <MapPage filteredStores={filteredStores} />
       <MapSearchBar setSearchQuery={setSearchQuery} searchQuery={searchQuery} />
     </View>
