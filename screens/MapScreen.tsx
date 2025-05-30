@@ -16,7 +16,6 @@ export default function MapScreen() {
   useEffect(() => {
     const fetchBookstores = async () => {
       if (__DEV__) {
-        setFilteredStores(mockBookstores);
         setBookstores(mockBookstores);
         return;
       }
@@ -37,16 +36,14 @@ export default function MapScreen() {
   }, []);
 
   useEffect(() => {
-    if (!searchQuery.trim()) {
-      setFilteredStores(bookstores);
-      return;
+    if (searchQuery.trim()) {
+      const filtered = bookstores.filter((store) =>
+        store.address?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredStores(filtered);
+    } else {
+      setFilteredStores([]);
     }
-
-    const filtered = bookstores.filter((store) =>
-      store.address?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    setFilteredStores(filtered);
   }, [searchQuery, bookstores]);
 
   return (

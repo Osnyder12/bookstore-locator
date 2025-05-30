@@ -19,12 +19,11 @@ const styles = StyleSheet.create({
 });
 
 const MapSearchResults: React.FC<MapSearchResultsProp> = ({ filteredStores }) => {
-  console.log(filteredStores);
   return (
     filteredStores && (
       <View style={styles.resultsContainer}>
         {filteredStores.map((store: Bookstore) => {
-          <Text>{store.name}</Text>;
+          return <Text>{store.name}</Text>;
         })}
       </View>
     )
