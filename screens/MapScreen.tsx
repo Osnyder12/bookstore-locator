@@ -1,6 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Alert, View } from "react-native";
+import MapView from "react-native-maps";
 import MapPage from "../components/map/MapPage";
 import MapSearchBar from "../components/map/MapSearchBar";
 import MapSearchResults from "../components/map/MapSearchResults";
@@ -12,6 +13,7 @@ export default function MapScreen() {
   const [bookstores, setBookstores] = useState<Bookstore[]>([]);
   const [filteredStores, setFilteredStores] = useState<Bookstore[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const mapRef = useRef<MapView>(null);
 
   useEffect(() => {
     const fetchBookstores = async () => {
@@ -46,10 +48,24 @@ export default function MapScreen() {
     }
   }, [searchQuery, bookstores]);
 
+  const handleStorePress = (latitude: number, longitude: number) => {
+    if (mapRef.current) {
+      mapRef.current.animateToRegion(
+        {
+          latitude,
+          longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        },
+        1000
+      );
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
-      <MapSearchResults filteredStores={filteredStores} />
-      <MapPage filteredStores={filteredStores} />
+      <MapSearchResults filteredStores={filteredStores} onStorePress={handleStorePress} />
+      <MapPage ref={mapRef} filteredStores={filteredStores} />
       <MapSearchBar setSearchQuery={setSearchQuery} searchQuery={searchQuery} />
     </View>
   );

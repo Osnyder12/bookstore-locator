@@ -1,14 +1,16 @@
-import React from "react";
+import React, { forwardRef, RefObject } from "react";
 import MapView, { Marker } from "react-native-maps";
 import { Bookstore } from "../../types/bookstore";
 
 interface MapPageProps {
-  filteredStores: any;
+  filteredStores: Bookstore[];
+  ref: RefObject<MapView>;
 }
 
-const MapPage: React.FC<MapPageProps> = ({ filteredStores }) => {
+const MapPage = forwardRef<MapView, MapPageProps>(({ filteredStores }, ref) => {
   return (
     <MapView
+      ref={ref}
       style={{ flex: 1 }}
       initialRegion={{
         latitude: filteredStores[0]?.latitude || 42.3601,
@@ -27,6 +29,6 @@ const MapPage: React.FC<MapPageProps> = ({ filteredStores }) => {
       ))}
     </MapView>
   );
-};
+});
 
 export default MapPage;

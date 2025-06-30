@@ -1,9 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Bookstore } from "../../types/bookstore";
 
 interface MapSearchResultsProp {
-  filteredStores: any;
+  filteredStores: Bookstore[];
+  onStorePress: (latitude: number, longitude: number) => void;
 }
 
 const styles = StyleSheet.create({
@@ -16,14 +17,29 @@ const styles = StyleSheet.create({
     zIndex: 10,
     maxHeight: 200,
   },
+
+  storeListing: {},
 });
 
-const MapSearchResults: React.FC<MapSearchResultsProp> = ({ filteredStores }) => {
+const MapSearchResults: React.FC<MapSearchResultsProp> = ({ filteredStores, onStorePress }) => {
   return (
     filteredStores && (
       <View style={styles.resultsContainer}>
         {filteredStores.map((store: Bookstore) => {
-          return <Text>{store.name}</Text>;
+          return (
+            <TouchableOpacity
+              key={store.id}
+              onPress={() => {
+                console.log("hello");
+                onStorePress(store.latitude, store.longitude);
+              }}
+            >
+              <View>
+                <Text style={styles.storeListing}>{store.name}</Text>
+                <Text>{store.address}</Text>
+              </View>
+            </TouchableOpacity>
+          );
         })}
       </View>
     )
