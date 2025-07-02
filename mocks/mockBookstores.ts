@@ -22,4 +22,11 @@ export const mockBookstores: Bookstore[] = [
     latitude: 42.3459,
     longitude: -71.1234,
   },
+  {
+    id: "4",
+    name: "Mock Bookstore Four",
+    address: "125 Tremont St, Boston, MA",
+    latitude: 42.3565,
+    longitude: -71.0617,
+  },
 ];

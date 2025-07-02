@@ -30,7 +30,6 @@ const MapSearchResults: React.FC<MapSearchResultsProp> = ({ filteredStores, onSt
             <TouchableOpacity
               key={store.id}
               onPress={() => {
-                console.log("hello");
                 onStorePress(store.latitude, store.longitude);
               }}
             >
