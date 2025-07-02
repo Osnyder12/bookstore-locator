@@ -48,7 +48,7 @@ export default function MapScreen() {
     }
   }, [searchQuery, bookstores]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (filteredStores.length > 0) {
       const coordinates = filteredStores.map((store) => ({
         latitude: store.latitude,
