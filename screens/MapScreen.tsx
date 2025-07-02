@@ -48,6 +48,20 @@ export default function MapScreen() {
     }
   }, [searchQuery, bookstores]);
 
+  React.useEffect(() => {
+    if (filteredStores.length > 0) {
+      const coordinates = filteredStores.map((store) => ({
+        latitude: store.latitude,
+        longitude: store.longitude,
+      }));
+
+      mapRef?.current?.fitToCoordinates(coordinates, {
+        edgePadding: { top: 150, right: 150, bottom: 150, left: 150 },
+        animated: true,
+      });
+    }
+  });
+
   const handleStorePress = (latitude: number, longitude: number) => {
     if (mapRef.current) {
       mapRef.current.animateToRegion(
