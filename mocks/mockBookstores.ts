@@ -1,5 +1,5 @@
 import { Bookstore } from "../types/bookstore";
-
+// Add data fetch from google
 export const mockBookstores: Bookstore[] = [
   {
     id: "1",
